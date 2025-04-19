@@ -46,22 +46,20 @@ class WatchFiles(FileSystemEventHandler):
             print(f"Failed to trigger jumpscare: {e}")
 
 
-def start_watcher(watch_path: str = "."):
-    observer = Observer()
-    handler = WatchFiles()
-    _ = observer.schedule(handler, path=watch_path, recursive=True)
-    observer.start()
+    def start(self, watch_path: str = "."):
+        observer = Observer()
+        handler = WatchFiles()
+        _ = observer.schedule(handler, path=watch_path, recursive=True)
+        observer.start()
 
-    print("Watching for changes in .py files...")
+        print("Watching for changes in .py files...")
 
-    try:
-        while True:
-            pass
-    except KeyboardInterrupt:
-        observer.stop()
-        print("Watcher stopped")
+        try:
+            while True:
+                pass
+        except KeyboardInterrupt:
+            observer.stop()
+            print("Watcher stopped")
 
-    observer.join()
+        observer.join()
 
-if __name__ == "__main__":
-    start_watcher()
