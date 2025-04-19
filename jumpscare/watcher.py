@@ -21,7 +21,23 @@ class WatchFiles(FileSystemEventHandler):
         if result.returncode == 0:
             print("[SUCESS] se livrou dessa vez..")
         else:
-            print("Booooooooo")
+             self.jumpscare()
+
+    def jumpscare(self):
+        path = "C:/jumpscare/"
+        system = platform.system()
+
+        match system:
+            case "Windows":
+                open_file(["cmd", "/c", "start", f"{path}jumpscare-image.jpg"], "image")
+                open_file(["cmd", "/c", "start", f"{path}never.mp3"], "audio")
+
+            case "Linux":
+                open_file(["gio", "open", f"{path}jumpscare-image.jpg"], "image")
+                open_file(["gio", "open", f"{path}never.mp3"], "audio")
+
+            case _:
+                 pass
 
 def start_watcher(watch_path: str = "."):
     observer = Observer()
