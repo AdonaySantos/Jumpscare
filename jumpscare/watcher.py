@@ -37,8 +37,8 @@ class WatchFiles(FileSystemEventHandler):
                     open_file(["cmd", "/c", "start", audio_path], "audio")
 
                 case "Linux":
-                    open_file(["gio", "open", image_path], "image")
-                    open_file(["gio", "open", audio_path], "audio")
+                    open_file(["xdg-open", image_path], "image")
+                    open_file(["mpg123", audio_path], "audio")
 
                 case _:
                     pass

@@ -13,7 +13,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "jumpscare = jumpscare.cli:app",
+            "jumpscare = jumpscare.cli:main",
         ],
     },
     package_data={
