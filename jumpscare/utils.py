@@ -1,7 +1,11 @@
 import subprocess
 
-def open_file(command, kind):
+def open_file(command: list[str], file_type: str):
     try:
-        subprocess.run(command)
+        _ = subprocess.run(command)
+    except subprocess.CalledProcessError as e:
+        print(f"[ERRO] Fail to open {file_type}. Return code: {e.returncode}")
+    except FileNotFoundError:
+        print(f"[ERRO] Command not found while trying to open {file_type}.")
     except Exception as e:
-        print(f"Failed to open {kind}: {e}")
+        print(f"[ERRO] Unexpected error while opening {file_type}: {e}")
