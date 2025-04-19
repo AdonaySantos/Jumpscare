@@ -1,6 +1,7 @@
 import subprocess
+from pathlib import Path
 
-def open_file(command: list[str], file_type: str):
+def open_file(command: list[str | Path], file_type: str):
     try:
         _ = subprocess.run(command)
     except subprocess.CalledProcessError as e:

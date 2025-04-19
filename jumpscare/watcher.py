@@ -1,8 +1,9 @@
-import platform, subprocess
+import platform, subprocess, pkg_resources
+from pathlib import Path
 from typing import override
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler, FileSystemEvent
-from utils import open_file
+from jumpscare.utils import open_file
 
 class WatchFiles(FileSystemEventHandler):
     @override
@@ -24,20 +25,26 @@ class WatchFiles(FileSystemEventHandler):
              self.jumpscare()
 
     def jumpscare(self):
-        path = "C:/jumpscare/"
         system = platform.system()
 
-        match system:
-            case "Windows":
-                open_file(["cmd", "/c", "start", f"{path}jumpscare-image.jpg"], "image")
-                open_file(["cmd", "/c", "start", f"{path}never.mp3"], "audio")
+        try:
+            image_path: Path = Path(pkg_resources.resource_filename('jumpscare', "releases/jumpscare-image.jpg"))
+            audio_path: Path = Path(pkg_resources.resource_filename('jumpscare', "releases/never.mp3"))
 
-            case "Linux":
-                open_file(["gio", "open", f"{path}jumpscare-image.jpg"], "image")
-                open_file(["gio", "open", f"{path}never.mp3"], "audio")
+            match system:
+                case "Windows":
+                    open_file(["cmd", "/c", "start", image_path], "image")
+                    open_file(["cmd", "/c", "start", audio_path], "audio")
 
-            case _:
-                 pass
+                case "Linux":
+                    open_file(["gio", "open", image_path], "image")
+                    open_file(["gio", "open", audio_path], "audio")
+
+                case _:
+                    pass
+        except Exception as e:
+            print(f"Failed to trigger jumpscare: {e}")
+
 
 def start_watcher(watch_path: str = "."):
     observer = Observer()
